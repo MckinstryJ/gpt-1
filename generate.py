@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     lm_model.eval()
 
-    text = input('Input some beginning words:')
+    text = input('Input some beginning words: \n->')
     while text != 'q':
         X = text_encoder.encode([text,])
         XMB = make_batch(X)
@@ -115,8 +115,8 @@ if __name__ == '__main__':
                 values, indices = lm_probs[:, -1, :].topk(args.topk)
                 next_idx = indices.gather(-1, torch.multinomial(values, 1))
             next_token = text_encoder.decoder[next_idx.item()].replace('</w>', '')
-            print(next_token, end=' ')
+            print(next_token.replace('\n', ' '), end=' ')
             XMB = append_batch(XMB, next_idx)
 
         print()
-        text = input('Input some beginning words:')
+        text = input('Input some beginning words: \n->')
